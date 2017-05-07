@@ -28,7 +28,6 @@ public interface Executor<R> extends CoreExecutor<R> {
     }
 
     default R executeRuntime(String args, String[] envp, Callback<R> callback) {
-
         final Runtime runtime = Runtime.getRuntime();
         return executeProcessLogic(() -> runtime.exec(args, envp), callback);
     }

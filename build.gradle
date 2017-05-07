@@ -1,0 +1,10 @@
+group 'com.mickey305'
+version '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies { }

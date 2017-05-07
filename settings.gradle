@@ -1,0 +1,4 @@
+rootProject.name = 'Jclic'
+include 'jclic'
+include 'sample'
+

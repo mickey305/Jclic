@@ -54,4 +54,4 @@ dependencies {
 ```
 
 # History
- * version 0.0.1-SNAPSHOT deploy - 2017-5-08
+ * version 0.0.1-SNAPSHOT deploy(Test version) - 2017-5-08

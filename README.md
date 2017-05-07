@@ -1,4 +1,4 @@
-# Jclic(Command line component for Java)
+# Jclic(Command line wrapper component for Java)
 
 | | branch | travis ci | JitPack |
 |:---:|:---|:---|:---|

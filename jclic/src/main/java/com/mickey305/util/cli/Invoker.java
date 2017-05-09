@@ -15,8 +15,8 @@ public class Invoker<RS> {
     private Stack<Command<RS>> trashCommands;
 
     @FunctionalInterface
-    public interface Callback {
-        void onFinishEvent(Object returnCode);
+    public interface Callback<RS> {
+        void onFinishEvent(RS result);
     }
 
     public Stack<Command<RS>> getCommands() {
@@ -75,7 +75,7 @@ public class Invoker<RS> {
         this.execute(null);
     }
 
-    public void execute(Callback callback) {
+    public void execute(Callback<RS> callback) {
         for (Command<RS> command : this.getCommands()) {
             RS status = command.execute();
 

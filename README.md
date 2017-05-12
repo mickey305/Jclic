@@ -54,4 +54,7 @@ dependencies {
 ```
 
 # History
+ * version 0.1.2 deploy - 2017-5-08
+    * changed architecture of option setting
+    * refactoring, bugfix
  * version 0.0.1-SNAPSHOT deploy(Test version) - 2017-5-08

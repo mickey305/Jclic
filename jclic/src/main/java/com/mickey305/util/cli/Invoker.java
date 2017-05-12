@@ -3,57 +3,58 @@ package com.mickey305.util.cli;
 import java.util.Collection;
 import java.util.Stack;
 
-import static com.mickey305.util.cli.Command.RESULT_ERR;
+import static com.mickey305.util.cli.TerminalCommand.RESULT_ERR;
 
 /**
  * Created by K.Misaki on 2017/05/05.
  *
  */
-public class Invoker<RS> {
-    private long step;
-    private Stack<Command<RS>> commands;
-    private Stack<Command<RS>> trashCommands;
+public class Invoker<C extends Command> implements BufferingInterface<C> {
+    private Stack<C> commands;
+    private Stack<C> trashCommands;
 
     @FunctionalInterface
-    public interface Callback<RS> {
-        void onFinishEvent(RS result);
+    public interface Callback {
+        void onFinishEvent(int status);
     }
 
-    public Stack<Command<RS>> getCommands() {
+    public Stack<C> getCommands() {
         return commands;
     }
 
-    public void setCommands(Stack<Command<RS>> commands) {
+    public void setCommands(Stack<C> commands) {
         this.commands = commands;
     }
 
-    private Stack<Command<RS>> getTrashCommands() {
+    private Stack<C> getTrashCommands() {
         return trashCommands;
     }
 
-    private void setTrashCommands(Stack<Command<RS>> trashCommands) {
+    private void setTrashCommands(Stack<C> trashCommands) {
         this.trashCommands = trashCommands;
     }
 
     public Invoker() {
         this.setCommands(new Stack<>());
         this.setTrashCommands(new Stack<>());
-        step = 0;
     }
 
-    public Command<RS> addCommand(Command<RS> command) {
+    @Override
+    public C add(C command) {
         if (!this.getTrashCommands().isEmpty())
             this.setTrashCommands(new Stack<>());
         return this.getCommands().push(command);
     }
 
-    public void addAllCommands(Collection<Command<RS>> commands) {
-        commands.forEach(this::addCommand);
+    @Override
+    public void addAll(Collection<C> commands) {
+        commands.forEach(this::add);
     }
 
-    public Command<RS> undoCommand() {
+    @Override
+    public C undo() {
         if (!this.getCommands().isEmpty()) {
-            Command<RS> popCommand = this.getCommands().pop();
+            C popCommand = this.getCommands().pop();
             this.getTrashCommands().push(popCommand);
             return popCommand;
         } else {
@@ -61,9 +62,10 @@ public class Invoker<RS> {
         }
     }
 
-    public Command<RS> redoCommand() {
+    @Override
+    public C redo() {
         if (!this.getTrashCommands().isEmpty()) {
-            Command<RS> popCommand = this.getTrashCommands().pop();
+            C popCommand = this.getTrashCommands().pop();
             this.getCommands().push(popCommand);
             return popCommand;
         } else {
@@ -75,20 +77,12 @@ public class Invoker<RS> {
         this.execute(null);
     }
 
-    public void execute(Callback<RS> callback) {
-        for (Command<RS> command : this.getCommands()) {
-            RS status = command.execute();
-
-            step++;
-//            System.out.println(">>>>>>>>>> EXECUTED STEP [" + step + "] <<<<<<<<<<");
-
-            Receiver receiver = command.getReceiver();
-
+    public void execute(Callback callback) {
+        for (C command : this.getCommands()) {
+            int status = command.execute();
             if (callback != null)
                 callback.onFinishEvent(status);
-            if (receiver != null
-                    && receiver.returnType().equals(Integer.class)
-                    && RESULT_ERR == status)
+            if (status == RESULT_ERR)
                 break;
         }
     }

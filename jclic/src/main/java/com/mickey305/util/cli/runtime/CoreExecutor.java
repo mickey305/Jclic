@@ -1,27 +1,26 @@
-package com.mickey305.util.cli.receivers;
+package com.mickey305.util.cli.runtime;
 
 import java.io.IOException;
 
-import static com.mickey305.util.cli.Command.RESULT_ERR;
+import static com.mickey305.util.cli.TerminalCommand.RESULT_ERR;
 
 /**
  * Created by K.Misaki on 2017/05/07.
  *
  */
-public interface CoreExecutor<R> {
+public class CoreExecutor {
     @FunctionalInterface
-    interface Callback<R> {
-        R afterExecutionTask(Process process) throws InterruptedException;
+    public interface Callback {
+        int afterExecutionTask(Process process) throws InterruptedException;
     }
 
     @FunctionalInterface
-    interface Supplier<T> {
+    public interface Supplier<T> {
         T get() throws IOException;
     }
 
-    @SuppressWarnings("unchecked")
-    default R executeProcessLogic(Supplier<Process> processCreator, Callback<R> callback) {
-        R status = (R) RESULT_ERR;
+    public int executeProcessLogic(Supplier<Process> processCreator, Callback callback) {
+        int status = RESULT_ERR;
         try {
             Process process = processCreator.get();
             if (callback != null)

@@ -1,7 +1,7 @@
 package com.mickey305.util.cli.commands;
 
-import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.model.Arguments;
 import com.mickey305.util.cli.runtime.Executor;
 
@@ -14,10 +14,10 @@ import static com.mickey305.util.cli.TerminalCommandUtils.generatePipeByArgument
  * Created by K.Misaki on 2017/05/04.
  *
  */
-public class WhichCommand extends TerminalCommand {
-    private static final String CMD_NAME = "which";
+public class GrepCommand extends TerminalCommand {
+    private static final String CMD_NAME = "grep";
 
-    public WhichCommand(String commandPath) {
+    public GrepCommand(String commandPath) {
         super(commandPath, CMD_NAME);
     }
 

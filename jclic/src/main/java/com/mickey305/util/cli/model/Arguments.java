@@ -7,13 +7,25 @@ import java.util.Map;
  * Created by K.Misaki on 2017/05/04.
  *
  */
-public class Arguments {
+public class Arguments implements Cloneable {
     private String commandPath;
     private Map<String, String> options;
 
     public Arguments(String commandPath) {
         this.newOptions();
         this.setCommandPath(commandPath);
+    }
+
+    @Override
+    public Arguments clone() {
+        Arguments scope = null;
+        try {
+            scope = (Arguments) super.clone();
+            scope.options = new LinkedHashMap<>(this.options);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return scope;
     }
 
     public String getCommandPath() {

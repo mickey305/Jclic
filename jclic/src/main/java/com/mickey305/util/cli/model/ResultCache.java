@@ -4,13 +4,25 @@ package com.mickey305.util.cli.model;
  * Created by K.Misaki on 2017/05/05.
  *
  */
-public class ResultCache<T> {
+public class ResultCache<T> implements Cloneable {
     private ResultType type;
     private T result;
 
     public ResultCache(ResultType type, T result) {
         this.setType(type);
         this.setResult(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public ResultCache<T> clone() {
+        ResultCache<T> scope = null;
+        try {
+            scope = (ResultCache<T>) super.clone();;
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return scope;
     }
 
     public ResultType getType() {

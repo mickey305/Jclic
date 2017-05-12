@@ -1,58 +1,55 @@
 package com.mickey305.util.cli.commands;
 
-import com.mickey305.util.cli.Command;
+import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.Receiver;
 import com.mickey305.util.cli.model.Arguments;
+import com.mickey305.util.cli.runtime.Executor;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.mickey305.util.cli.TerminalCommandUtils.generatePipeByArguments;
 
 /**
  * Created by K.Misaki on 2017/05/04.
  *
  */
-public class LsCommand<R> extends Command<R> {
+public class LsCommand extends TerminalCommand {
     private static final String CMD_NAME = "ls";
 
-    private String commandPath;
-
-    public String getCommandPath() {
-        return commandPath;
-    }
-
-    public void setCommandPath(String commandPath) {
-        this.commandPath = commandPath;
-    }
-
     public LsCommand(String commandPath) {
-        File targetCommand = new File(commandPath);
-        if (targetCommand.exists() && targetCommand.isFile()
-                && targetCommand.canExecute() && commandPath.endsWith(CMD_NAME)) {
-            try {
-                this.setCommandPath(targetCommand.getCanonicalPath());
-            } catch (IOException e) {
-                this.throwException(commandPath, e);
-            }
-        } else {
-            this.throwException(commandPath, null);
-        }
+        super(commandPath, CMD_NAME);
     }
 
     @Override
-    public R execute() {
-        Arguments args = new Arguments(this.getCommandPath());
+    public int execute() {
+        int status;
+        List<TerminalCommand> pipeCommands = getPipeCommands();
+        List<Arguments> argumentsList = new ArrayList<>();
+        Arguments args = getArgs();
+        argumentsList.add(args);
+        Executor executor = new Executor();
 
-        Receiver<R> receiver = getReceiver();
-        return (receiver == null)
-                ? null
-                : receiver.action(args);
-    }
+        if (!pipeCommands.isEmpty()) {
+            // pipe logic
+            pipeCommands.forEach(cmd -> argumentsList.add(cmd.getArgs()));
+            String cmdSentence = generatePipeByArguments(argumentsList);
+            status = executor.executeRuntime(cmdSentence, process -> {
+                createResultSet(process);
+                return process.exitValue();
+            });
+        } else {
+            status = executor.executeRuntime(args, process -> {
+                createResultSet(process);
+                return process.exitValue();
+            });
+        }
 
-    private void throwException(String commandPath, Throwable th) {
-        String cause = (th != null)
-                ? System.lineSeparator() + "caused by " + th.getClass().getName()
-                : "";
-        throw new IllegalArgumentException("command PATH exception: please check the input path name."
-                + System.lineSeparator() + "input = [" + commandPath + "]" + cause);
+
+        Receiver receiver = getReceiver();
+        if (receiver != null)
+            receiver.action(argumentsList, status, getResultSet());
+
+        return status;
     }
 }

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class Receiver<R> {
     private static final int DEF_STREAM = 0;
     private static final int ERR_STREAM = 1;
-    private static final int DEFAULT_PROCESS_TIMEOUT = 5; // プロセスの最長実行時間（秒）
+    private static final int DEFAULT_PROCESS_TIMEOUT = 120; // プロセスの最長実行時間（秒）
 
     private Set<ResultCache<String>> resultSet;
 

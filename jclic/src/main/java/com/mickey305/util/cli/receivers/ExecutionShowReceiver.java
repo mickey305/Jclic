@@ -28,7 +28,6 @@ public class ExecutionShowReceiver implements Receiver {
         final BiConsumer<Long, String> printlnStd = (index, line) -> {
             if (index == 0) System.out.println(outStdHead + line);
             else            System.out.println(blankHead + line);};
-
         final BiConsumer<Long, String> printlnErr = (index, line) -> {
             if (index == 0) System.out.println(errStdHead + line);
             else            System.out.println(blankHead + line);};

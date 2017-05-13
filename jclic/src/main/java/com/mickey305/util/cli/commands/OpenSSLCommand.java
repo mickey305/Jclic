@@ -45,7 +45,6 @@ public class OpenSSLCommand extends TerminalCommand {
             });
         }
 
-
         Receiver receiver = getReceiver();
         if (receiver != null)
             receiver.action(argumentsList, status, getResultSet());

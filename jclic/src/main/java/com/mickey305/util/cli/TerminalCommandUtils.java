@@ -1,11 +1,17 @@
 package com.mickey305.util.cli;
 
 import com.mickey305.util.cli.model.Arguments;
+import com.mickey305.util.cli.model.ResultCache;
+import com.mickey305.util.cli.model.ResultType;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.mickey305.util.cli.Command.RESULT_ERR;
+import static com.mickey305.util.cli.Command.RESULT_OK;
 
 /**
  * Created by K.Misaki on 2017/05/13.
@@ -41,5 +47,39 @@ public class TerminalCommandUtils {
         return generatePipeCmdSentence(argsList.stream()
                 .map(Arguments::flatten)
                 .collect(Collectors.toList()));
+    }
+
+    public static boolean containsStdout(Set<ResultCache<String>> resultSet) {
+        return contains(ResultType.STANDARD, resultSet);
+    }
+
+    public static boolean containsWarning(Set<ResultCache<String>> resultSet) {
+        return contains(ResultType.WARNING, resultSet);
+    }
+
+    public static boolean containsError(Set<ResultCache<String>> resultSet) {
+        return contains(ResultType.ERROR, resultSet);
+    }
+
+    private static boolean contains(final ResultType type, final Set<ResultCache<String>> resultSet) {
+        long errCnt = resultSet.stream().filter(rs -> rs.getType() == type).count();
+        return (errCnt != 0);
+    }
+
+    public static int errorOr(int status, Set<ResultCache<String>> resultSet) {
+        if (status == RESULT_ERR)
+            return RESULT_ERR;
+
+        if (containsError(resultSet))
+            return RESULT_ERR;
+
+        return RESULT_OK;
+    }
+
+    public static int errorAnd(int status, Set<ResultCache<String>> resultSet) {
+        if (status == RESULT_ERR && containsError(resultSet))
+            return RESULT_ERR;
+
+        return RESULT_OK;
     }
 }

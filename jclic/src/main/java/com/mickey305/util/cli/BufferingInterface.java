@@ -7,9 +7,9 @@ import java.util.Collection;
  *
  */
 public interface BufferingInterface<T> {
-    T add(T command);
+    T add(T object);
 
-    void addAll(Collection<T> commands);
+    void addAll(Collection<T> objects);
 
     T undo();
 

@@ -27,10 +27,10 @@ public class ExecutionShowReceiver implements Receiver {
         final String blankHead  = "                     ";
         final BiConsumer<Long, String> printlnStd = (index, line) -> {
             if (index == 0) System.out.println(outStdHead + line);
-            else            System.out.println(blankHead + line);};
+            else System.out.println(blankHead + line);};
         final BiConsumer<Long, String> printlnErr = (index, line) -> {
             if (index == 0) System.out.println(errStdHead + line);
-            else            System.out.println(blankHead + line);};
+            else System.out.println(blankHead + line);};
         List<ResultCache<String>> stdList = resultSet.stream()
                 .filter(res -> res.getType() == ResultType.STANDARD)
                 .collect(Collectors.toList());

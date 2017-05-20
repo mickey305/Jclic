@@ -10,8 +10,11 @@ import static com.mickey305.util.cli.TerminalCommand.RESULT_ERR;
  *
  */
 public class Invoker<C extends Command> implements BufferingInterface<C> {
+    public static final boolean IGNORE = true;
+
     private Stack<C> commands;
     private Stack<C> trashCommands;
+    private boolean errorIgnoreExecution;
 
     @FunctionalInterface
     public interface Callback {
@@ -34,9 +37,23 @@ public class Invoker<C extends Command> implements BufferingInterface<C> {
         this.trashCommands = trashCommands;
     }
 
+    public boolean isErrorIgnoreExecution() {
+        return errorIgnoreExecution;
+    }
+
+    public void setErrorIgnoreExecution(boolean errorIgnoreExecution) {
+        this.errorIgnoreExecution = errorIgnoreExecution;
+    }
+
+    public Invoker<C> errorIgnore(boolean errorIgnoreExecution) {
+        this.setErrorIgnoreExecution(errorIgnoreExecution);
+        return this;
+    }
+
     public Invoker() {
         this.setCommands(new Stack<>());
         this.setTrashCommands(new Stack<>());
+        this.errorIgnore(!IGNORE);
     }
 
     @Override
@@ -82,7 +99,9 @@ public class Invoker<C extends Command> implements BufferingInterface<C> {
             int status = command.execute();
             if (callback != null)
                 callback.onFinishEvent(status);
-            if (status == RESULT_ERR)
+            // # execution stop judge
+            // not error-ignore mode and command status code is "error"
+            if (!this.isErrorIgnoreExecution() && status == RESULT_ERR)
                 break;
         }
     }

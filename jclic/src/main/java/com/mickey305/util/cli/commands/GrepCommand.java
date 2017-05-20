@@ -22,7 +22,7 @@ public class GrepCommand extends TerminalCommand {
     }
 
     @Override
-    public int execute() {
+    protected int executeLogic() {
         int status;
         List<TerminalCommand> pipeCommands = getPipeCommands();
         List<Arguments> argumentsList = new ArrayList<>();
@@ -35,11 +35,13 @@ public class GrepCommand extends TerminalCommand {
             pipeCommands.forEach(cmd -> argumentsList.add(cmd.getArgs()));
             String cmdSentence = generatePipeByArguments(argumentsList);
             status = executor.executeRuntime(cmdSentence, process -> {
+                createPid(process);
                 createResultSet(process);
                 return process.exitValue();
             });
         } else {
             status = executor.executeRuntime(args, process -> {
+                createPid(process);
                 createResultSet(process);
                 return process.exitValue();
             });

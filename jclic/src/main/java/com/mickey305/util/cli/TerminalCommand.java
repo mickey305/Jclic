@@ -8,6 +8,7 @@ import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -21,10 +22,12 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     private static final int DEFAULT_PROCESS_TIMEOUT = 120; // プロセスの最長実行時間（秒）
 
     private Set<ResultCache<String>> resultSet;
+    private Integer pid;
     private Arguments args;
     private List<TerminalCommand> pipeCommands;
 
     private TerminalCommand() {
+        super();
         this.initResultSet();
         this.initPipCommands();
     }
@@ -132,6 +135,25 @@ public abstract class TerminalCommand extends Command implements Cloneable {
 
         runnableList.get(DEF_STREAM).getList().forEach(line -> this.addResult(ResultType.STANDARD, line));
         runnableList.get(ERR_STREAM).getList().forEach(line -> this.addResult(ResultType.ERROR, line));
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    protected void createPid(Process process) {
+        try {
+            Field field = process.getClass().getDeclaredField("pid");
+            field.setAccessible(true);
+            final int pid = field.getInt(process);
+            this.setPid(pid);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public Arguments getArgs() {

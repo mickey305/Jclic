@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static com.mickey305.util.cli.Command.RESULT_ERR;
 import static com.mickey305.util.cli.Command.RESULT_OK;
+import static com.mickey305.util.system.OSCheck.*;
 
 /**
  * Created by K.Misaki on 2017/05/13.
@@ -81,5 +82,14 @@ public class TerminalCommandUtils {
             return RESULT_ERR;
 
         return RESULT_OK;
+    }
+
+    public static String getSystemDependentCommandName(String commandName) {
+        if (commandName == null)
+            return null;
+
+        return isWindows()
+                ? commandName + ".exe"
+                : commandName;
     }
 }

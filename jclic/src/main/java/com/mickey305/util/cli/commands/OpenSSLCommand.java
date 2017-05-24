@@ -24,11 +24,13 @@ public class OpenSSLCommand extends TerminalCommand {
     @Override
     protected int executeLogic() {
         int status;
-        List<TerminalCommand> pipeCommands = getPipeCommands();
         List<Arguments> argumentsList = new ArrayList<>();
-        Arguments args = getArgs();
-        argumentsList.add(args);
         Executor executor = new Executor();
+
+        List<TerminalCommand> pipeCommands = getPipeCommands();
+        Arguments args = getArgs();
+
+        argumentsList.add(args);
 
         if (!pipeCommands.isEmpty()) {
             // pipe logic

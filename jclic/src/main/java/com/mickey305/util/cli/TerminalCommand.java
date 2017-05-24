@@ -146,6 +146,9 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     }
 
     protected void createPid(Process process) {
+        if (!process.isAlive())
+            return;
+
         try {
             Field field = process.getClass().getDeclaredField("pid");
             field.setAccessible(true);

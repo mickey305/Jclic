@@ -2,7 +2,7 @@ package com.mickey305.util.cli.runtime;
 
 import java.io.IOException;
 
-import static com.mickey305.util.cli.TerminalCommand.RESULT_ERR;
+import static com.mickey305.util.cli.Command.RESULT_ERR;
 
 /**
  * Created by K.Misaki on 2017/05/07.

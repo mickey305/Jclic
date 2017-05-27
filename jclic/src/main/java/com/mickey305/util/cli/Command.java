@@ -30,14 +30,19 @@ public abstract class Command implements Cloneable {
 
     @Override
     public Command clone() {
-        Command scope = null;
         try {
+            Command scope;
             scope = (Command) super.clone();
-            scope.timestampMap = new HashMap<>(this.getTimestampMap());
+            // manual scoping
+            scope.timestampMap = new HashMap<>();
+            this.timestampMap.forEach((k, v) -> scope.timestampMap.put(k, (v != null)
+                    ? (Timestamp) v.clone()
+                    : null));
+            return scope;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return scope;
+        return null;
     }
 
     public int execute() {

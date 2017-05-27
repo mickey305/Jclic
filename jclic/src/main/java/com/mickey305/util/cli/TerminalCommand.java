@@ -37,12 +37,20 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     public TerminalCommand clone () {
         TerminalCommand scope;
         scope = (TerminalCommand) super.clone();
-        scope.resultSet = new LinkedHashSet<>(this.resultSet);
-        scope.pipeCommands = new ArrayList<>(this.pipeCommands);
-        scope.setPid(this.getPid());
         // manual scoping
-        scope.args = args.clone();
+        scope.resultSet = new LinkedHashSet<>();
+        scope.pipeCommands = new ArrayList<>();
+        scope.setPid(this.getPid());
+        scope.args = (args != null)
+                ? args.clone()
+                : null;
         scope.setReceiver(this.getReceiver());
+        this.resultSet.forEach(data -> scope.resultSet.add((data != null)
+                ? data.clone()
+                : null));
+        this.pipeCommands.forEach(data -> scope.pipeCommands.add((data != null)
+                ? data.clone()
+                : null));
         return scope;
     }
 
@@ -115,7 +123,7 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     }
 
     private void addResult(ResultType type, String result) {
-        resultSet.add(new ResultCache<>(type, result));
+        resultSet.add(new ResultCache<>(type, result).cloneOperator(data -> data));
     }
 
     private void setResultSet(Set<ResultCache<String>> resultSet) {

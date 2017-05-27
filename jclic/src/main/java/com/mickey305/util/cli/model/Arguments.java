@@ -18,15 +18,18 @@ public class Arguments implements Cloneable {
 
     @Override
     public Arguments clone() {
-        Arguments scope = null;
         try {
+            Arguments scope;
             scope = (Arguments) super.clone();
-            scope.options = new LinkedHashMap<>(this.options);
+            // manual scoping
+            scope.options = new LinkedHashMap<>();
             scope.setCommandPath(this.getCommandPath());
+            this.options.forEach((k, v) -> scope.options.put(k, v));
+            return scope;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return scope;
+        return null;
     }
 
     public String getCommandPath() {

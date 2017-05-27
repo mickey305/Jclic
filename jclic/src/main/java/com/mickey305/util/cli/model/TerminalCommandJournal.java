@@ -28,18 +28,29 @@ public class TerminalCommandJournal extends ModelWithLongId implements Cloneable
 
     @Override
     public TerminalCommandJournal clone() {
-        TerminalCommandJournal scope = null;
         try {
+            TerminalCommandJournal scope;
             scope = (TerminalCommandJournal) super.clone();
-            scope.executionArgs = new ArrayList<>(this.executionArgs);
-            scope.resultSet = new LinkedHashSet<>(this.resultSet);
-            scope.timestampMaps = new HashMap<>(this.timestampMaps);
+            // manual scoping
+            scope.executionArgs = new ArrayList<>();
+            scope.resultSet = new LinkedHashSet<>();
+            scope.timestampMaps = new HashMap<>();
             scope.setId(this.getId());
             scope.setPid(this.getPid());
+            this.executionArgs.forEach(data -> scope.executionArgs.add((data != null)
+                    ? data.clone()
+                    : null));
+            this.resultSet.forEach(data -> scope.resultSet.add((data != null)
+                    ? data.clone(seed -> seed)
+                    : null));
+            this.timestampMaps.forEach((k, v) -> scope.timestampMaps.put(k, (v != null)
+                    ? (Timestamp) v.clone()
+                    : null));
+            return scope;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return scope;
+        return null;
     }
 
     public String getExecutionSentence() {

@@ -18,7 +18,10 @@ public class ResultCache<T> implements Cloneable {
     public ResultCache<T> clone() {
         ResultCache<T> scope = null;
         try {
-            scope = (ResultCache<T>) super.clone();;
+            scope = (ResultCache<T>) super.clone();
+            scope.setType(this.getType());
+            // manual scoping
+            scope.setResult(this.getResult());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

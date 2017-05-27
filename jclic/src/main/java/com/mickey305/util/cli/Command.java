@@ -14,19 +14,10 @@ public abstract class Command implements Cloneable {
     public static final int RESULT_OK = 0;
     public static final int RESULT_ERR = 1;
 
-    private Receiver receiver;
     private Map<Benchmark, Timestamp> timestampMap;
 
     public Command() {
         this.setTimestampMap(new HashMap<>());
-    }
-
-    public Receiver getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(Receiver receiver) {
-        this.receiver = receiver;
     }
 
     public Map<Benchmark, Timestamp> getTimestampMap() {
@@ -35,11 +26,6 @@ public abstract class Command implements Cloneable {
 
     private void setTimestampMap(Map<Benchmark, Timestamp> timestampMap) {
         this.timestampMap = timestampMap;
-    }
-
-    public Command receiver(Receiver receiver) {
-        this.setReceiver(receiver);
-        return this;
     }
 
     @Override

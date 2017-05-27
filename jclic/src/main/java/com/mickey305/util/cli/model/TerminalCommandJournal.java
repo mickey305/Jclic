@@ -34,6 +34,8 @@ public class TerminalCommandJournal extends ModelWithLongId implements Cloneable
             scope.executionArgs = new ArrayList<>(this.executionArgs);
             scope.resultSet = new LinkedHashSet<>(this.resultSet);
             scope.timestampMaps = new HashMap<>(this.timestampMaps);
+            scope.setId(this.getId());
+            scope.setPid(this.getPid());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

@@ -22,6 +22,7 @@ public class Arguments implements Cloneable {
         try {
             scope = (Arguments) super.clone();
             scope.options = new LinkedHashMap<>(this.options);
+            scope.setCommandPath(this.getCommandPath());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

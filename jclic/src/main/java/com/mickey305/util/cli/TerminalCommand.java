@@ -25,6 +25,7 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     private Integer pid;
     private Arguments args;
     private List<TerminalCommand> pipeCommands;
+    private Receiver receiver;
 
     private TerminalCommand() {
         super();
@@ -37,8 +38,11 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         TerminalCommand scope;
         scope = (TerminalCommand) super.clone();
         scope.resultSet = new LinkedHashSet<>(this.resultSet);
-        scope.args = args.clone();
         scope.pipeCommands = new ArrayList<>(this.pipeCommands);
+        scope.setPid(this.getPid());
+        // manual scoping
+        scope.args = args.clone();
+        scope.setReceiver(this.getReceiver());
         return scope;
     }
 
@@ -54,6 +58,19 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         } else {
             this.throwException(commandPath, null);
         }
+    }
+
+    public Receiver getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(Receiver receiver) {
+        this.receiver = receiver;
+    }
+
+    public TerminalCommand receiver(Receiver receiver) {
+        this.setReceiver(receiver);
+        return this;
     }
 
     protected List<TerminalCommand> getPipeCommands() {

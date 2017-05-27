@@ -25,7 +25,7 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     private Integer pid;
     private Arguments args;
     private List<TerminalCommand> pipeCommands;
-    private Receiver receiver;
+    private CliReceiver receiver;
 
     private TerminalCommand() {
         super();
@@ -60,15 +60,15 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         }
     }
 
-    public Receiver getReceiver() {
+    public CliReceiver getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Receiver receiver) {
+    public void setReceiver(CliReceiver receiver) {
         this.receiver = receiver;
     }
 
-    public TerminalCommand receiver(Receiver receiver) {
+    public TerminalCommand receiver(CliReceiver receiver) {
         this.setReceiver(receiver);
         return this;
     }

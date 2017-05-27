@@ -1,5 +1,5 @@
 import com.mickey305.util.cli.Invoker;
-import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.CliReceiver;
 import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.commands.GrepCommand;
 import com.mickey305.util.cli.commands.LsCommand;
@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class A01_StandardSample {
     public void execute() {
-        Receiver executionShowReceiver = new ExecutionShowReceiver();
+        CliReceiver executionShowReceiver = new ExecutionShowReceiver();
         List<TerminalCommand> opensslCommands = new ArrayList<>();
         List<TerminalCommand> whichCommands = new ArrayList<>();
         List<TerminalCommand> searchingCommands = new ArrayList<>();

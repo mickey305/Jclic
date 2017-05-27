@@ -2,7 +2,7 @@ package com.mickey305.util.cli.invokers;
 
 import com.mickey305.util.cli.Invoker;
 import com.mickey305.util.cli.JournalManager;
-import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.CliReceiver;
 import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.model.Benchmark;
 import com.mickey305.util.cli.receivers.ResultAccessibleReceiver;
@@ -49,7 +49,7 @@ public class TermInvoker<C extends TerminalCommand> extends Invoker<C> {
             int status = command.execute();
 
             Integer pid = command.getPid();
-            Receiver receiver = command.getReceiver();
+            CliReceiver receiver = command.getReceiver();
             Map<Benchmark, Timestamp> timestampMap = command.getTimestampMap();
             if (jm != null
                     && pid != null

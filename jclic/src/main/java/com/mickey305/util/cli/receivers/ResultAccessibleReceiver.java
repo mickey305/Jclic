@@ -1,6 +1,6 @@
 package com.mickey305.util.cli.receivers;
 
-import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.CliReceiver;
 import com.mickey305.util.cli.model.Arguments;
 import com.mickey305.util.cli.model.ResultCache;
 
@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by K.Misaki on 2017/05/20.
  *
  */
-public class ResultAccessibleReceiver implements Receiver {
+public class ResultAccessibleReceiver implements CliReceiver {
     private List<Arguments> argsList;
     private int status;
     private Set<ResultCache<String>> resultCacheSet;

@@ -40,7 +40,7 @@ public class DefaultExecutionImplementor {
             });
         }
 
-        Receiver receiver = instance.getReceiver();
+        CliReceiver receiver = instance.getReceiver();
         if (receiver != null)
             receiver.action(argumentsList, status, instance.getResultSet());
 

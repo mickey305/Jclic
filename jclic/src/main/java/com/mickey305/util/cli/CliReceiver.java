@@ -10,6 +10,6 @@ import java.util.Set;
  * Created by K.Misaki on 2017/05/04.
  *
  */
-public interface Receiver {
+public interface CliReceiver {
     void action(List<Arguments> args, int status, Set<ResultCache<String>> resultSet);
 }

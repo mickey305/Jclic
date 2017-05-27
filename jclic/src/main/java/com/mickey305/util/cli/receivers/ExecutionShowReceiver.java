@@ -1,6 +1,6 @@
 package com.mickey305.util.cli.receivers;
 
-import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.CliReceiver;
 import com.mickey305.util.cli.TerminalCommandUtils;
 import com.mickey305.util.cli.model.Arguments;
 import com.mickey305.util.cli.model.ResultCache;
@@ -17,7 +17,7 @@ import static com.mickey305.util.cli.collection.CollectionUtils.eachWithIndex;
  * Created by K.Misaki on 2017/05/05.
  *
  */
-public class ExecutionShowReceiver implements Receiver {
+public class ExecutionShowReceiver implements CliReceiver {
     @Override
     public void action(List<Arguments> args, int status, Set<ResultCache<String>> resultSet) {
         String argSentence = TerminalCommandUtils.generatePipeByArguments(args);

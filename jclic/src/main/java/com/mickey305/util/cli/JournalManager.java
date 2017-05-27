@@ -53,6 +53,14 @@ public class JournalManager {
         this.journalList = journalList;
     }
 
+    public TerminalCommandJournal getFirstJournal() {
+        return this.getJournalList().get(0);
+    }
+
+    public TerminalCommandJournal getLastJournal() {
+        return this.getJournalList().get(this.getJournalList().size() - 1);
+    }
+
     private long getAndIncrementId() {
         return id++;
     }

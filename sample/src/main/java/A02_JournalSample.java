@@ -11,7 +11,9 @@ import com.mickey305.util.cli.model.TerminalCommandJournal;
 import com.mickey305.util.cli.receivers.ResultAccessibleReceiver;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by K.Misaki on 2017/05/05.
@@ -56,7 +58,11 @@ public class A02_JournalSample {
         //-------------------------------------------------------------------------------------------------------------+
         // Terminal Command Post                                                                                       |
         //-------------------------------------------------------------------------------------------------------------+
+        // execute
         invoker.execute();
+        List<TerminalCommandJournal> journalList = invoker.getJournalManager().getJournalList();
+        // print
+        printJournal(journalList);
 
         invoker.undo();
         invoker.undo();
@@ -65,13 +71,26 @@ public class A02_JournalSample {
         System.out.println("========== Undo ==========");
         System.out.println("========== Redo ==========");
 
+        // execute
         invoker.execute();
+        journalList = invoker.getJournalManager().getJournalList();
+        // print
+        printJournal(journalList);
+        // sort
+        journalList = invoker.getJournalManager().getJournalList().stream().sorted(
+                Comparator.comparing(TerminalCommandJournal::getId).reversed()).collect(Collectors.toList());
+        // print
+        printJournal(journalList);
+        // clear
+        journalList.clear();
+        // add
+        journalList.add(invoker.getJournalManager().getFirstJournal());
+        journalList.add(invoker.getJournalManager().getLastJournal());
+        // print
+        printJournal(journalList);
+    }
 
-        //-------------------------------------------------------------------------------------------------------------+
-        // Plot Result                                                                                                 |
-        //-------------------------------------------------------------------------------------------------------------+
-        JournalManager manager = invoker.getJournalManager();
-        List<TerminalCommandJournal> journalList =  manager.getJournalList();
+    private void printJournal(List<TerminalCommandJournal> journalList) {
         System.out.println("+-------------------- Journal Print --------------------+");
         String comma =  ANSI_FONT_RED + "," + ANSI_RESET;
         System.out.println(colorBlue("ID") + "\t" + comma

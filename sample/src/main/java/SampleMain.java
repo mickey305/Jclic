@@ -1,6 +1,4 @@
-import com.mickey305.util.cli.TerminalCommand;
-import com.mickey305.util.cli.Invoker;
-import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.*;
 import com.mickey305.util.cli.commands.GrepCommand;
 import com.mickey305.util.cli.commands.LsCommand;
 import com.mickey305.util.cli.commands.OpenSSLCommand;
@@ -13,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.mickey305.util.cli.TerminalCommandBuilder.build;
+
 /**
  * Created by K.Misaki on 2017/05/05.
  *
@@ -23,20 +23,22 @@ public class SampleMain {
         List<TerminalCommand> opensslCommands = new ArrayList<>();
         List<TerminalCommand> whichCommands = new ArrayList<>();
         List<TerminalCommand> searchingCommands = new ArrayList<>();
-        opensslCommands.add(new OpenSSLCommand("/usr/local/opt/openssl/bin/openssl").option("version"));
-        opensslCommands.add(new OpenSSLCommand("/usr/local/opt/openssl/bin/openssl").option("version"));
-        opensslCommands.add(new OpenSSLCommand("/usr/local/opt/openssl/bin/openssl").option("version"));
-        whichCommands.add(new WhichCommand("/usr/bin/which").option("openssl"));
-        whichCommands.add(new WhichCommand("/usr/bin/which").option("java"));
-        whichCommands.add(new WhichCommand("/usr/bin/which").option("scala"));
-        whichCommands.add(new WhichCommand("/usr/bin/which").option("which"));
-        searchingCommands.add(new LsCommand("/bin/ls")
-                .option("-la").option("."));
-        searchingCommands.add(new LsCommand("/bin/ls")
-                .option("-la").option(".")
-                .pipe(new GrepCommand("/usr/bin/grep").option("gradle")));
+        OpenSSLCommand openssl = OpenSSLCommand.create();
+        WhichCommand which = WhichCommand.create();
+        LsCommand ls = LsCommand.create();
+        GrepCommand grep = GrepCommand.create();
+        opensslCommands.add(openssl.clone().option("version"));
+        opensslCommands.add(openssl.clone().option("version"));
+        opensslCommands.add(openssl.clone().option("version"));
+        whichCommands.add(which.clone().option("openssl"));
+        whichCommands.add(which.clone().option("java"));
+        whichCommands.add(which.clone().option("scala"));
+        whichCommands.add(which.clone().option("which"));
+        searchingCommands.add(ls.clone().option("-la").option("."));
+        searchingCommands.add(ls.clone().option("-la").option(".")
+                .pipe(grep.clone().option("gradle")));
 
-//        opensslCommands.forEach(cmd -> cmd.setReceiver(executionShowReceiver));
+        opensslCommands.forEach(cmd -> cmd.setReceiver(executionShowReceiver));
         searchingCommands.forEach(cmd -> cmd.setReceiver(executionShowReceiver));
         whichCommands.forEach(cmd -> cmd.setReceiver(executionShowReceiver));
 

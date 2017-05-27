@@ -2,6 +2,7 @@ package com.mickey305.util.cli.commands;
 
 import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.TerminalCommandBuilder;
 import com.mickey305.util.cli.model.Arguments;
 import com.mickey305.util.cli.runtime.Executor;
 
@@ -19,6 +20,10 @@ public class LsCommand extends TerminalCommand {
 
     public LsCommand(String commandPath) {
         super(commandPath, CMD_NAME);
+    }
+
+    public static LsCommand create() {
+        return TerminalCommandBuilder.build(LsCommand.class);
     }
 
     @Override

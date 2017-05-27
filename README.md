@@ -54,6 +54,10 @@ dependencies {
 ```
 
 # History
+ * version 0.1.5 deploy - 2017-5-27
+    * added journal generate logic
+    * added command builder class
+    * small fix
  * version 0.1.2 deploy - 2017-5-08
     * changed architecture of option setting
     * refactoring, bugfix

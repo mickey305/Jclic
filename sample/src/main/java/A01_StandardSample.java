@@ -1,4 +1,6 @@
-import com.mickey305.util.cli.*;
+import com.mickey305.util.cli.Invoker;
+import com.mickey305.util.cli.Receiver;
+import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.commands.GrepCommand;
 import com.mickey305.util.cli.commands.LsCommand;
 import com.mickey305.util.cli.commands.OpenSSLCommand;
@@ -11,14 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.mickey305.util.cli.TerminalCommandBuilder.build;
-
 /**
  * Created by K.Misaki on 2017/05/05.
  *
  */
-public class SampleMain {
-    public static void main(String[] args) {
+public class A01_StandardSample {
+    public void execute() {
         Receiver executionShowReceiver = new ExecutionShowReceiver();
         List<TerminalCommand> opensslCommands = new ArrayList<>();
         List<TerminalCommand> whichCommands = new ArrayList<>();

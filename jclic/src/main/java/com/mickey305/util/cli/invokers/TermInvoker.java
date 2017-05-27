@@ -4,7 +4,11 @@ import com.mickey305.util.cli.Invoker;
 import com.mickey305.util.cli.JournalManager;
 import com.mickey305.util.cli.Receiver;
 import com.mickey305.util.cli.TerminalCommand;
+import com.mickey305.util.cli.model.Benchmark;
 import com.mickey305.util.cli.receivers.ResultAccessibleReceiver;
+
+import java.sql.Timestamp;
+import java.util.Map;
 
 import static com.mickey305.util.cli.TerminalCommand.RESULT_ERR;
 
@@ -46,8 +50,13 @@ public class TermInvoker<C extends TerminalCommand> extends Invoker<C> {
 
             Integer pid = command.getPid();
             Receiver receiver = command.getReceiver();
-            if (pid != null && jm != null && receiver != null && receiver instanceof ResultAccessibleReceiver) {
-                jm.createAndAddJournal(pid, (ResultAccessibleReceiver) receiver, command.getTimestampMaps());
+            Map<Benchmark, Timestamp> timestampMap = command.getTimestampMap();
+            if (jm != null
+                    && pid != null
+                    && timestampMap != null
+                    && receiver != null
+                    && receiver instanceof ResultAccessibleReceiver) {
+                jm.createAndAddJournal(pid, (ResultAccessibleReceiver) receiver, timestampMap);
             }
             if (callback != null)
                 callback.onFinishEvent(status);

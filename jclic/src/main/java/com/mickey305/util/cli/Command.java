@@ -15,10 +15,10 @@ public abstract class Command implements Cloneable {
     public static final int RESULT_ERR = 1;
 
     private Receiver receiver;
-    private Map<Benchmark, Timestamp> timestampMaps;
+    private Map<Benchmark, Timestamp> timestampMap;
 
     public Command() {
-        this.setTimestampMaps(new HashMap<>());
+        this.setTimestampMap(new HashMap<>());
     }
 
     public Receiver getReceiver() {
@@ -29,12 +29,12 @@ public abstract class Command implements Cloneable {
         this.receiver = receiver;
     }
 
-    public Map<Benchmark, Timestamp> getTimestampMaps() {
-        return timestampMaps;
+    public Map<Benchmark, Timestamp> getTimestampMap() {
+        return timestampMap;
     }
 
-    private void setTimestampMaps(Map<Benchmark, Timestamp> timestampMaps) {
-        this.timestampMaps = timestampMaps;
+    private void setTimestampMap(Map<Benchmark, Timestamp> timestampMap) {
+        this.timestampMap = timestampMap;
     }
 
     public Command receiver(Receiver receiver) {
@@ -47,7 +47,7 @@ public abstract class Command implements Cloneable {
         Command scope = null;
         try {
             scope = (Command) super.clone();
-            scope.timestampMaps = new HashMap<>(this.getTimestampMaps());
+            scope.timestampMap = new HashMap<>(this.getTimestampMap());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public abstract class Command implements Cloneable {
     }
 
     public int execute() {
-        Map<Benchmark, Timestamp> tsMap = this.getTimestampMaps();
+        Map<Benchmark, Timestamp> tsMap = this.getTimestampMap();
         tsMap.put(Benchmark.START, new Timestamp(System.currentTimeMillis()));
         // execution logic impl
         int status = this.executeLogic();

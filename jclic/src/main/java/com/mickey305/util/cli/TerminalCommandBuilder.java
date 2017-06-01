@@ -33,11 +33,11 @@ public class TerminalCommandBuilder {
         return map;
     }
 
-    public static <C> C build(Class<C> commandClass) {
+    public static <C> C build(Class<C> commandClass) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         return build(commandClass, null);
     }
 
-    public static <C> C build(Class<C> commandClass, Map<Class<?>, String> extensionDictionary) {
+    public static <C> C build(Class<C> commandClass, Map<Class<?>, String> extensionDictionary) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         // superclass check
         if (!TerminalCommand.class.isAssignableFrom(commandClass))
             throw new IllegalArgumentException("the super class of [" + commandClass.getName() + "] is not ["
@@ -53,7 +53,8 @@ public class TerminalCommandBuilder {
                 return commandClass.getConstructor(String.class).newInstance(path);
             } catch (InstantiationException | IllegalAccessException
                     | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
+                // exception throwing
+                throw e;
             }
         }
 

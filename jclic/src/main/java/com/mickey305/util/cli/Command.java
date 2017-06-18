@@ -45,7 +45,7 @@ public abstract class Command implements Cloneable {
         return null;
     }
 
-    public int execute() {
+    public synchronized int execute() {
         Map<Benchmark, Timestamp> tsMap = this.getTimestampMap();
         tsMap.put(Benchmark.START, new Timestamp(System.currentTimeMillis()));
         // execution logic impl

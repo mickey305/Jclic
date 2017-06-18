@@ -33,7 +33,6 @@ public class GrepCommand extends TerminalCommand {
             if (callback != null)
                 callback.onCreate(true);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
             if (callback != null)
                 callback.onCreate(false);
         }

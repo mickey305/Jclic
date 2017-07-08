@@ -45,7 +45,7 @@ public class TermInvokerTest {
 
     /**
      *
-     * Target: {@link TermInvoker#execute()} )}
+     * Target: {@link TermInvoker#execute()}
      */
     @Test
     public void execute() throws Exception {
@@ -62,11 +62,11 @@ public class TermInvokerTest {
         TerminalCommand which = WhichCommand.create();
         LsCommand ls = LsCommand.create();
         List<TerminalCommand> commands = new ArrayList<>();
-        if (which == null) return;
-        if (ls == null) return;
+//        if (which == null) return;
+//        if (ls == null) return;
         for (int i = 0; i < commandCnt / 2; i++)
             commands.add(which.clone().receiver(receiver).option("ls"));
-        for (int i = 0; i < commandCnt / 2; i++)
+        for (int i = 0; i < commandCnt / 2 -1; i++)
             commands.add(ls.clone().receiver(receiver).option("-la"));
         invoker.addAll(commands);
         invoker.journalManager(journalManager);

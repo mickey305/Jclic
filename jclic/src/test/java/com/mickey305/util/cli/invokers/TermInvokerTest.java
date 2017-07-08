@@ -45,7 +45,7 @@ public class TermInvokerTest {
 
     /**
      *
-     * Target: {@link TermInvoker#execute()} )}
+     * Target: {@link TermInvoker#execute()}
      */
     @Test
     public void execute() throws Exception {

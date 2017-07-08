@@ -26,11 +26,13 @@ public abstract class TerminalCommand extends Command implements Cloneable {
     private Arguments args;
     private List<TerminalCommand> pipeCommands;
     private CliReceiver receiver;
+    private int processTimeout;
 
     private TerminalCommand() {
         super();
         this.initResultSet();
         this.initPipCommands();
+        this.setProcessTimeout(DEFAULT_PROCESS_TIMEOUT);
     }
 
     @Override
@@ -41,6 +43,7 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         scope.resultSet = new LinkedHashSet<>();
         scope.pipeCommands = new ArrayList<>();
         scope.setPid(this.getPid());
+        scope.setProcessTimeout(this.getProcessTimeout());
         scope.args = (args != null)
                 ? args.clone()
                 : null;
@@ -98,6 +101,14 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         return this;
     }
 
+    public int getProcessTimeout() {
+        return processTimeout;
+    }
+
+    public void setProcessTimeout(int processTimeout) {
+        this.processTimeout = processTimeout;
+    }
+
     public TerminalCommand option(String key, String val) {
         this.getArgs().putOption(key, val);
         return this;
@@ -153,7 +164,7 @@ public abstract class TerminalCommand extends Command implements Cloneable {
         // 出力データの取得（スレッド処理）
         threads.forEach(Thread::start);
         // プロセスの終了待ち
-        process.waitFor(DEFAULT_PROCESS_TIMEOUT, TimeUnit.SECONDS);
+        process.waitFor(this.getProcessTimeout(), TimeUnit.SECONDS);
         // スレッドの終了待ち
         threads.get(DEF_STREAM).join();
         threads.get(ERR_STREAM).join();

@@ -18,6 +18,8 @@ import static com.mickey305.util.system.OSCheck.isWindows;
  *
  */
 public class TerminalCommandBuilder {
+    private static final int DEFAULT_PROCESS_TIMEOUT = 30; // プロセスの最長実行時間（秒）
+
     private static Map<Class<?>, String> createCommandMap(Map<Class<?>, String> extensionDictionary) {
         Map<Class<?>, String> map = new HashMap<>();
 
@@ -86,7 +88,7 @@ public class TerminalCommandBuilder {
         // 出力データの取得（スレッド処理）
         th.start();
         // プロセスの終了待ち
-        process.waitFor(3, TimeUnit.SECONDS);
+        process.waitFor(DEFAULT_PROCESS_TIMEOUT, TimeUnit.SECONDS);
         // スレッドの終了待ち
         th.join();
 

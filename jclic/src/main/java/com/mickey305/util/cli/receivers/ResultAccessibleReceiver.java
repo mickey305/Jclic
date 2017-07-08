@@ -12,15 +12,29 @@ import java.util.Set;
  *
  */
 public class ResultAccessibleReceiver implements CliReceiver {
+    private boolean accept;
     private List<Arguments> argsList;
     private int status;
     private Set<ResultCache<String>> resultCacheSet;
+
+    public ResultAccessibleReceiver() {
+        this.setAccept(false);
+    }
 
     @Override
     public void action(List<Arguments> args, int status, Set<ResultCache<String>> resultSet) {
         this.setArgsList(args);
         this.setStatus(status);
         this.setResultCacheSet(resultSet);
+        this.setAccept(true);
+    }
+
+    public boolean isAccept() {
+        return accept;
+    }
+
+    public void setAccept(boolean accept) {
+        this.accept = accept;
     }
 
     public List<Arguments> getArgsList() {

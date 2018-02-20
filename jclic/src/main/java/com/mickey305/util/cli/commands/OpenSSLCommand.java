@@ -3,6 +3,7 @@ package com.mickey305.util.cli.commands;
 import com.mickey305.util.cli.DefaultExecutionImplementor;
 import com.mickey305.util.cli.TerminalCommand;
 import com.mickey305.util.cli.TerminalCommandBuilder;
+import com.mickey305.util.system.OSCheck;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  */
 public class OpenSSLCommand extends TerminalCommand {
-    private static final String CMD_NAME = "openssl";
+    private static final String CMD_NAME = OSCheck.isWindows() ? "openssl.exe": "openssl";
 
     @FunctionalInterface
     public interface Callback {

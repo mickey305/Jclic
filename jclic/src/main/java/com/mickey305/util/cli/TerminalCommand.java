@@ -191,7 +191,8 @@ public abstract class TerminalCommand extends Command implements Cloneable {
             final int pid = field.getInt(process);
             this.setPid(pid);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            this.setPid(-1);
         }
     }
 
